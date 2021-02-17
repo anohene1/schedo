@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "956673586176",
+    "project_id": "schedo-bb82b",
+    "storage_bucket": "schedo-bb82b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956673586176:android:3f839ade4db1f5e26b94e5",
+        "android_client_info": {
+          "package_name": "com.anosoft.schedo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956673586176-uus71cb6oqfvkludmhkgrf2jap8jm8la.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anosoft.schedo",
+            "certificate_hash": "acc217446e4b071eb4c2946d98a4eb99cfb33c36"
+          }
+        },
+        {
+          "client_id": "956673586176-jilopm2vln6ckd82ebmhrvpq0tvdceh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtd-Vg8-rI_HKrx2Z6dbjj3RPSOKj2IWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956673586176-jilopm2vln6ckd82ebmhrvpq0tvdceh0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "956673586176-a499bg5ekmfsse05bllapu8840m5hifn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anosoft.schedo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
