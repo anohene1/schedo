@@ -1,3 +1,4 @@
+import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,17 @@ import 'model/models.dart';
 //Signed in user
 User signedInUser = FirebaseAuth.instance.currentUser;
 
+//Get Device Info
+DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+double iOSVersion;
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+  iOSVersion = double.tryParse(iosInfo.systemVersion);
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider<HomeIndexedStackIndex>(create: (context) => HomeIndexedStackIndex()),
@@ -63,7 +72,8 @@ class _MyAppState extends State<MyApp> {
       // theme: currentTheme.currentTheme(),
       theme: lightTheme(),
       darkTheme: darkTheme(),
-      home: signedInUser == null ? OnboardingScreen() : HomeScreen(),
+      // home: OnboardingScreen(),
+      home: signedInUser == null ? OnboardingScreen(iOSVersion: iOSVersion,) : Navigation(),
     );
   }
 }

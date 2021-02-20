@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:schedo_final/main.dart';
@@ -8,8 +10,11 @@ import "../components/components.dart";
 import "screens.dart";
 import '../../model/models.dart';
 
-
 class OnboardingScreen extends StatelessWidget {
+
+  final double iOSVersion;
+  OnboardingScreen({this.iOSVersion});
+
   @override
   Widget build(BuildContext context) {
 
@@ -55,11 +60,28 @@ class OnboardingScreen extends StatelessWidget {
                 title:'Facebook',
                 imageIcon: 'assets/images/Facebook.png',
               onTap: () {
-                // TODO: Implement Sign In With Facebook
+                authService.signInWithFacebook().then((value){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Navigation()));
+                }).catchError((e){
+                  print(e);
+                });
                 // currentTheme.switchTheme();
               },
             ),
             VerticalSpacing(15),
+           Platform.isIOS ? SizedBox.shrink() :  SocialButton(
+             title:'Twitter',
+             imageIcon: 'assets/images/Twitter.png',
+             onTap: () {
+               authService.signInWithTwitter().then((value){
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Navigation()));
+               }).catchError((e){
+                 print(e);
+               });
+               // currentTheme.switchTheme();
+             },
+           ),
+            Platform.isIOS ? SizedBox.shrink() : VerticalSpacing(15),
             SocialButton(
                 title: 'Google',
                 imageIcon: 'assets/images/Google.png',
@@ -72,11 +94,15 @@ class OnboardingScreen extends StatelessWidget {
               },
             ),
             VerticalSpacing(15),
-            Platform.isIOS ? SocialButton(
+            Platform.isIOS && iOSVersion >= 13 ? SocialButton(
                 title: 'Apple',
                 imageIcon: 'assets/images/Apple-${Theme.of(context).brightness == Brightness.dark ? 'white' : 'black'}.png',
                 onTap: (){
-                  // TODO: Implement Sign In With Apple
+                  authService.signInWithApple().then((value){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Navigation()));
+                  }).catchError((e){
+                    print(e);
+                  });
                 }
             ) : SizedBox.shrink()
           ]

@@ -29,14 +29,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.1
   provider: ^4.3.3
-  moor: ^3.4.0
   responsive_framework: ^0.0.14
   firebase_core: 0.7.0
   firebase_auth: ^0.20.0+1
   cloud_firestore: ^0.16.0
   firebase_analytics: ^7.0.1
   google_sign_in: ^4.5.1
-  apple_sign_in: ^0.1.0
+  flutter_facebook_auth: ^2.0.1
+  sign_in_with_apple: ^2.5.4
+  flutter_twitter_login:
+    git: git://github.com/eudangeld/flutter_twitter_login.git
+  crypto: ^2.1.5
+  device_info: ^1.0.0
 
 
 dev_dependencies:
