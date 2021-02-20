@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,8 +23,10 @@ double iOSVersion;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-  iOSVersion = double.tryParse(iosInfo.systemVersion);
+  if (Platform.isIOS) {
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    iOSVersion = double.tryParse(iosInfo.systemVersion);
+  }
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider<HomeIndexedStackIndex>(create: (context) => HomeIndexedStackIndex()),

@@ -43,21 +43,36 @@ class Navigation extends StatelessWidget {
                       );
                     },
                   ),
-                  Container(
-                    height: 40,
-                    width: 40,
-                    child: Icon(Icons.add, color: Colors.white, size: 25,),
-                    decoration: BoxDecoration(
-                        color: pink,
-                        borderRadius: BorderRadius.circular(13),
-                        boxShadow: [
-                          BoxShadow(
-                              color: pink,
-                              blurRadius: 5,
-                              spreadRadius: 0.1
-                          )
-                        ]
+                  GestureDetector(
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: Icon(Icons.add, color: Colors.white, size: 25,),
+                      decoration: BoxDecoration(
+                          color: pink,
+                          borderRadius: BorderRadius.circular(13),
+                          boxShadow: [
+                            BoxShadow(
+                                color: pink,
+                                blurRadius: 5,
+                                spreadRadius: 0.1
+                            )
+                          ]
+                      ),
                     ),
+                    onTap: (){
+                        showModalBottomSheet<dynamic>(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                              return Wrap(
+                                children: [
+                                  AddTaskScreen(),
+                                ],
+                              );
+                          }
+                        );
+                    },
                   ),
                   Consumer<NavigationIndexedStackIndex>(
                     builder: (context, index, child){

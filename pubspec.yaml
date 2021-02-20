@@ -41,6 +41,7 @@ dependencies:
     git: git://github.com/eudangeld/flutter_twitter_login.git
   crypto: ^2.1.5
   device_info: ^1.0.0
+  day_night_time_picker: ^0.5.0
 
 
 dev_dependencies:

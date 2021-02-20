@@ -18,7 +18,7 @@ class CategoryButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 80,
+        height: 70,
         width: 150,
         margin: EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
