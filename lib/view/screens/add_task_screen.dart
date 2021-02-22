@@ -3,11 +3,39 @@ import 'dart:io';
 import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:schedo_final/model/models.dart';
+import 'package:schedo_final/model/task.dart';
 import 'package:schedo_final/view/components/components.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class TaskType extends ChangeNotifier {
 
-  DateTime selectedDate;
+  List<Category> taskTypes = [
+    Category(title: 'Important'),
+    Category(title: 'Planned')
+  ];
+
+  void deselectAllButtons() {
+    taskTypes.forEach((element) { element.isSelected = false; });
+    notifyListeners();
+  }
+
+  void setSelected(Category item) {
+    item.isSelected = true;
+    notifyListeners();
+  }
+}
+
+TextEditingController taskTitleController = TextEditingController();
+
+String title;
+DateTime selectedDate;
+TimeOfDay startTime;
+TimeOfDay endTime;
+bool getAlert = true;
+String taskType;
+
+class AddTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +80,13 @@ class AddTaskScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20
                   ),
+                  controller: taskTitleController,
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  onChanged: (value) {
+                    title = value;
+                  },
                   decoration: InputDecoration(
                     hintText: 'Task Title',
                     filled: true,
@@ -83,11 +118,27 @@ class AddTaskScreen extends StatelessWidget {
                 children: [
                   Text('Task type'),
                   VerticalSpacing(10),
-                  Row(
-                    children: [
-                      CategoryButton(title: 'Important'),
-                      CategoryButton(title: 'Planned')
-                    ],
+                  Container(
+                    height: 70,
+                    child: Consumer<TaskType>(
+                      builder: (context, tTypes, child) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tTypes.taskTypes.length,
+                          itemBuilder: (context, index) {
+                            return CategoryButton(
+                              title: tTypes.taskTypes[index].title,
+                              isSelected: tTypes.taskTypes[index].isSelected,
+                              onTap: () {
+                                tTypes.deselectAllButtons();
+                                tTypes.setSelected(tTypes.taskTypes[index]);
+                                taskType = tTypes.taskTypes[index].title;
+                              },
+                            );
+                          },
+                        );
+                      }
+                    ),
                   )
                 ],
             ),
@@ -100,10 +151,8 @@ class AddTaskScreen extends StatelessWidget {
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: (){
-                        // TODO: Implement date picking
-
-                        showDatePicker(
+                      onTap: () async {
+                       selectedDate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(DateTime.now().year),
@@ -172,7 +221,7 @@ class AddTaskScreen extends StatelessWidget {
                                       padding: EdgeInsets.symmetric(horizontal: 20),
                                       decoration: BoxDecoration(
                                         color: Theme.of(context).scaffoldBackgroundColor,
-                                        borderRadius: BorderRadius.circular(50)
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
                                       ),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -186,8 +235,7 @@ class AddTaskScreen extends StatelessWidget {
                                                       value: TimeOfDay.now(),
                                                       borderRadius: 50,
                                                       onChange: (time) {
-                                                      //TODO: Handle time picking
-                                                          print(time);
+                                                          startTime = time;
                                                       },
                                                   )
                                                 );
@@ -202,8 +250,7 @@ class AddTaskScreen extends StatelessWidget {
                                                     value: TimeOfDay.now(),
                                                     borderRadius: 50,
                                                     onChange: (time) {
-                                                      //TODO: Handle time picking
-                                                      print(time);
+                                                      endTime = time;
                                                     },
                                                   )
                                               );
@@ -262,26 +309,53 @@ class AddTaskScreen extends StatelessWidget {
                 ),
                 CupertinoSwitch(
                   activeColor: Theme.of(context).primaryColor,
-                  value: true,
+                  value: getAlert,
                   onChanged: (value) {
-
+                    getAlert = value;
                   },
                 )
               ],
             ),
             VerticalSpacing(30),
-            Container(
-              height: 70,
-              decoration: BoxDecoration(
-                color: pink,
-                borderRadius: BorderRadius.circular(20)
-              ),
-              child: Center(
-                child: Text(
-                    'Done',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18
+            GestureDetector(
+              onTap: () {
+                Provider.of<FirestoreService>(context, listen: false).addTask(
+                  Task(
+                    title: title,
+                    type: taskType,
+                    date: selectedDate,
+                    startTime: DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute),
+                    endTime: endTime == null ? null : DateTime(selectedDate.year, selectedDate.month, selectedDate.day, endTime.hour, endTime.minute),
+                    getAlert: getAlert
+                  )
+                ).then((value){
+                }).catchError((e){
+                  print(e);
+                });
+                Navigator.pop(context);
+                // if (Provider.of<FirestoreService>(context, listen: false).isLoading){
+                //   showDialog(
+                //     context: context,
+                //     barrierDismissible: false,
+                //     builder: (context) {
+                //       return Center(child: CircularProgressIndicator());
+                //     }
+                //   );
+                // }
+              },
+              child: Container(
+                height: 70,
+                decoration: BoxDecoration(
+                  color: pink,
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                child: Center(
+                  child: Text(
+                      'Done',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18
+                    ),
                   ),
                 ),
               ),

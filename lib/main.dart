@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:schedo_final/model/auth_service.dart';
+import 'package:schedo_final/model/firestore_service.dart';
 import 'view/screens/screens.dart';
 import 'view/themes/themes.dart';
 import 'model/models.dart';
@@ -32,7 +33,9 @@ void main() async {
       ChangeNotifierProvider<HomeIndexedStackIndex>(create: (context) => HomeIndexedStackIndex()),
       ChangeNotifierProvider<NavigationIndexedStackIndex>(create: (context) => NavigationIndexedStackIndex()),
       ChangeNotifierProvider<Categories>(create: (context) => Categories()),
+      ChangeNotifierProvider<TaskType>(create: (context) => TaskType()),
       Provider<AuthService>(create: (context) => AuthService()),
+      ChangeNotifierProvider<FirestoreService>(create: (context) => FirestoreService()),
     ],
       child: MyApp(),
     )
