@@ -24,7 +24,7 @@ class TaskWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 10),
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 20),
       decoration:
       BoxDecoration(color: Theme.of(context).buttonColor, borderRadius: BorderRadius.circular(20),
         border: Border.all(

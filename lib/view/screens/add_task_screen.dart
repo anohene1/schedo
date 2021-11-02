@@ -232,6 +232,7 @@ class AddTaskScreen extends StatelessWidget {
                                                 Navigator.of(context).push(
                                                   showPicker(
                                                     context: context,
+                                                      barrierDismissible: false,
                                                       value: TimeOfDay.now(),
                                                       borderRadius: 50,
                                                       onChange: (time) {
@@ -247,6 +248,7 @@ class AddTaskScreen extends StatelessWidget {
                                               Navigator.of(context).push(
                                                   showPicker(
                                                     context: context,
+                                                    barrierDismissible: false,
                                                     value: TimeOfDay.now(),
                                                     borderRadius: 50,
                                                     onChange: (time) {
@@ -319,20 +321,37 @@ class AddTaskScreen extends StatelessWidget {
             VerticalSpacing(30),
             GestureDetector(
               onTap: () {
-                Provider.of<FirestoreService>(context, listen: false).addTask(
-                  Task(
-                    title: title,
-                    type: taskType,
-                    date: selectedDate,
-                    startTime: DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute),
-                    endTime: endTime == null ? null : DateTime(selectedDate.year, selectedDate.month, selectedDate.day, endTime.hour, endTime.minute),
-                    getAlert: getAlert
-                  )
-                ).then((value){
-                }).catchError((e){
-                  print(e);
-                });
-                Navigator.pop(context);
+                if (taskTitleController.text.isEmpty) {
+                  showError(context: context, title: 'Error!', error: 'Task title cannot be empty.');
+                } else if (startTime == null) {
+                  showError(context: context, title: 'Error!' ,error: 'Select the time the task should start.');
+                } else if (selectedDate == null) {
+                  showError(context: context, title: 'Error!' ,error: 'Select the date of the task.');
+                }
+                else {
+                  Provider.of<FirestoreService>(context, listen: false).addTask(
+                      Task(
+                        title: title,
+                        type: taskType,
+                        date: selectedDate,
+                        startTime: DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute),
+                        endTime: endTime == null ? null : DateTime(selectedDate.year, selectedDate.month, selectedDate.day, endTime.hour, endTime.minute),
+                        getAlert: getAlert,
+                      )
+                  ).then((value){
+                  }).catchError((e){
+                    print(e);
+                  });
+
+                  // Resets the add task form
+                  Navigator.pop(context);
+                  Provider.of<TaskType>(context, listen: false).deselectAllButtons();
+                  taskTitleController.clear();
+                  taskType = null;
+                  selectedDate = null;
+                  startTime = null;
+                  endTime = null;
+                }
                 // if (Provider.of<FirestoreService>(context, listen: false).isLoading){
                 //   showDialog(
                 //     context: context,
@@ -367,3 +386,4 @@ class AddTaskScreen extends StatelessWidget {
     );
   }
 }
+

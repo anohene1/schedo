@@ -69,7 +69,7 @@ class OnboardingScreen extends StatelessWidget {
               },
             ),
             VerticalSpacing(15),
-           Platform.isIOS ? SizedBox.shrink() :  SocialButton(
+           SocialButton(
              title:'Twitter',
              imageIcon: 'assets/images/Twitter.png',
              onTap: () {
@@ -81,7 +81,7 @@ class OnboardingScreen extends StatelessWidget {
                // currentTheme.switchTheme();
              },
            ),
-            Platform.isIOS ? SizedBox.shrink() : VerticalSpacing(15),
+            VerticalSpacing(15),
             SocialButton(
                 title: 'Google',
                 imageIcon: 'assets/images/Google.png',
@@ -94,17 +94,17 @@ class OnboardingScreen extends StatelessWidget {
               },
             ),
             VerticalSpacing(15),
-            Platform.isIOS && iOSVersion >= 13 ? SocialButton(
-                title: 'Apple',
-                imageIcon: 'assets/images/Apple-${Theme.of(context).brightness == Brightness.dark ? 'white' : 'black'}.png',
-                onTap: (){
-                  authService.signInWithApple().then((value){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Navigation()));
-                  }).catchError((e){
-                    print(e);
-                  });
-                }
-            ) : SizedBox.shrink()
+            // Platform.isIOS && iOSVersion >= 13 ? SocialButton(
+            //     title: 'Apple',
+            //     imageIcon: 'assets/images/Apple-${Theme.of(context).brightness == Brightness.dark ? 'white' : 'black'}.png',
+            //     onTap: (){
+            //       authService.signInWithApple().then((value){
+            //         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Navigation()));
+            //       }).catchError((e){
+            //         print(e);
+            //       });
+            //     }
+            // ) : SizedBox.shrink()
           ]
         ),
       ),

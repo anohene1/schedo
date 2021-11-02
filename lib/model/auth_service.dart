@@ -6,7 +6,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:crypto/crypto.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+// import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthService {
   final firebaseAuth = FirebaseAuth.instance;
@@ -43,15 +43,15 @@ class AuthService {
     return digest.toString();
   }
 
-  Future<UserCredential> signInWithApple() async {
-    final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
-
-    final appleCredential = await SignInWithApple.getAppleIDCredential(scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName], nonce: nonce);
-
-    final oauthCredential = OAuthProvider('apple.com').credential(idToken: appleCredential.identityToken, rawNonce: rawNonce);
-    return await firebaseAuth.signInWithCredential(oauthCredential);
-  }
+  // Future<UserCredential> signInWithApple() async {
+  //   final rawNonce = generateNonce();
+  //   final nonce = sha256ofString(rawNonce);
+  //
+  //   final appleCredential = await SignInWithApple.getAppleIDCredential(scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName], nonce: nonce);
+  //
+  //   final oauthCredential = OAuthProvider('apple.com').credential(idToken: appleCredential.identityToken, rawNonce: rawNonce);
+  //   return await firebaseAuth.signInWithCredential(oauthCredential);
+  // }
 
   Future<UserCredential> signInWithTwitter() async {
     final TwitterLoginResult result = await twitterSignIn.authorize();

@@ -6,6 +6,7 @@ class Task {
   final DateTime startTime;
   final DateTime endTime;
   final DateTime date;
+  final DateTime month;
   bool getAlert;
   bool isCompleted;
 
@@ -15,6 +16,7 @@ class Task {
       this.startTime,
       this.endTime,
       this.date,
+    this.month,
       this.getAlert = true,
       this.isCompleted = false,
       });
