@@ -1,4 +1,3 @@
-import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,8 +13,8 @@ class PlannedScreen extends StatelessWidget {
       children: [
         CalendarTimeline(
             initialDate: DateTime.now(),
-            firstDate: DateTime(2021, 1, 1),
-            lastDate: DateTime(2021, 12, 31),
+            firstDate: DateTime(2020, 1, 1),
+            lastDate: DateTime(2022, 12, 31),
             onDateSelected: (date) {},
             monthColor: Theme.of(context).primaryColorLight,
           dayColor: Theme.of(context).primaryColorLight,
@@ -24,6 +23,7 @@ class PlannedScreen extends StatelessWidget {
           activeDayColor: Colors.white,
           dayBackgroundColor: Theme.of(context).buttonColor,
           dotsColor: Theme.of(context).primaryColor,
+          // showYears: true,
         ),
         VerticalSpacing(20),
         Expanded(

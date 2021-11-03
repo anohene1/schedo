@@ -11,6 +11,8 @@ import 'package:schedo_final/model/firestore_service.dart';
 import 'view/screens/screens.dart';
 import 'view/themes/themes.dart';
 import 'model/models.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 //Signed in user
 User signedInUser = FirebaseAuth.instance.currentUser;
@@ -57,6 +59,7 @@ class _MyAppState extends State<MyApp> {
     currentTheme.addListener(() {
       setState(() {});
     });
+    initializeDateFormatting();
   }
 
   @override
