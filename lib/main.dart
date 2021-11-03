@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +26,9 @@ double iOSVersion;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AwesomeNotifications().initialize(null, [
+    NotificationChannel(channelKey: 'basic_channel', channelName: 'Schedo Notifications', channelDescription: 'Notifications of tasks', defaultColor: Color(0xFF5C49A4))
+  ]);
   await Firebase.initializeApp();
   if (Platform.isIOS) {
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
@@ -64,6 +68,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    AwesomeNotifications().actionStream.listen(
+            (receivedNotification){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+        }
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       builder: (context, widget) => ResponsiveWrapper.builder(

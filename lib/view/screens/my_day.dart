@@ -33,21 +33,44 @@ class MyDayScreen extends StatelessWidget {
             );
           }
 
+          DateTime today = DateTime.now();
+          List<QueryDocumentSnapshot> completed = snapshot.data.docs.where((item) => item['is_completed'] && item['type'] != 'Important').toList().where((element) => getDateTime(element['date']).year == today.year && getDateTime(element['date']).month == today.month && getDateTime(element['date']).day == today.day).toList();
+          List<QueryDocumentSnapshot> uncompleted = snapshot.data.docs.where((item) => item['is_completed'] == false && item['type'] != 'Important').toList().where((element) => getDateTime(element['date']).year == today.year && getDateTime(element['date']).month == today.month && getDateTime(element['date']).day == today.day).toList();
+
+
           return ListView(
-            children: snapshot.data.docs.map((document) {
-              return TaskWidget(
+            children: [
+              uncompleted.isEmpty ? SizedBox.shrink() : ListHeading(title: 'Tasks',),
+              ...uncompleted.map((document) => CheckableTaskWidget(
                 title: document.data()['title'],
+                description: document.data()['description'],
+                taskID: '${document.id}',
                 startTime: getDateTime(document.data()['start_time']),
-                endTime: document.data()['end_time']  == null ? null : getDateTime(document.data()['end_time']),
+                endTime: document.data()['end_time'] == null
+                    ? null
+                    : getDateTime(document.data()['end_time']),
                 date: getDateTime(document.data()['date']).day.toString(),
-                day: DateFormat.EEEE().format((getDateTime(document.data()['date']))).substring(0, 3),
-                // startTime: DateTime.fromMillisecondsSinceEpoch(int.tryParse(document.data()['start_time'].toString().substring(18, 28)) * 1000),
-                // endTime: document.data()['end_time']  == null ? null : DateTime.fromMillisecondsSinceEpoch(int.tryParse(document.data()['end_time'].toString().substring(18, 28)) * 1000),
-                // date: DateTime.fromMillisecondsSinceEpoch(int.tryParse(document.data()['date'].toString().substring(18, 28)) * 1000).day.toString(),
-                // day: DateFormat.EEEE().format((DateTime.fromMillisecondsSinceEpoch(int.tryParse(document.data()['date'].toString().substring(18, 28)) * 1000))).substring(0, 3),
+                day: DateFormat.EEEE()
+                    .format((getDateTime(document.data()['date'])))
+                    .substring(0, 3),
                 isCompleted: document.data()['is_completed'],
-              );
-            }).toList(),
+              )),
+              completed.isEmpty ? SizedBox.shrink() : ListHeading(title: 'Completed',),
+              ...completed.map((document) => CheckableTaskWidget(
+                title: document.data()['title'],
+                description: document.data()['description'],
+                taskID: '${document.id}',
+                startTime: getDateTime(document.data()['start_time']),
+                endTime: document.data()['end_time'] == null
+                    ? null
+                    : getDateTime(document.data()['end_time']),
+                date: getDateTime(document.data()['date']).day.toString(),
+                day: DateFormat.EEEE()
+                    .format((getDateTime(document.data()['date'])))
+                    .substring(0, 3),
+                isCompleted: document.data()['is_completed'],
+              )),
+            ],
           );
       },
     );

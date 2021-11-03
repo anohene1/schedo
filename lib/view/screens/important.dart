@@ -14,7 +14,7 @@ class ImportantScreen extends StatelessWidget {
       stream: Provider.of<FirestoreService>(context)
           .users
           .where('type', isEqualTo: 'Important')
-          .orderBy('timestamp')
+          .orderBy('timestamp', descending: true)
           .snapshots(),
       // stream: Provider.of<FirestoreService>(context).users.snapshots(),
       // stream: FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser.uid).snapshots(),
@@ -46,12 +46,7 @@ class ImportantScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(month,
-                    style: TextStyle(
-                      fontSize: 20
-                    ),
-                  ),
-                  VerticalSpacing(10),
+                  ListHeading(title: month,),
                   ...items[month].map((task) {
                     return TaskWidget(
                                 title: task.data()['title'],

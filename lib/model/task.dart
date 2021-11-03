@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Task {
   final String title;
+  final String description;
   final String type;
   final DateTime startTime;
   final DateTime endTime;
@@ -11,17 +12,18 @@ class Task {
   bool isCompleted;
 
   Task({
-      this.title,
-      this.type,
-      this.startTime,
-      this.endTime,
-      this.date,
+    this.title,
+    this.description,
+    this.type,
+    this.startTime,
+    this.endTime,
+    this.date,
     this.month,
-      this.getAlert = true,
-      this.isCompleted = false,
-      });
+    this.getAlert = true,
+    this.isCompleted = false,
+  });
 
-  void toggleCompleted () {
+  void toggleCompleted() {
     isCompleted = !isCompleted;
   }
 

@@ -57,17 +57,17 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   // Profile Picture
-                  Container(
-                    height: 45,
-                    width: 45,
-                    decoration: BoxDecoration(
-                        // color: darkGray,
-                        borderRadius: BorderRadius.circular(100)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                        child: Image.network(signedInUser.photoURL),
-                    ),
-                  )
+                  // Container(
+                  //   height: 45,
+                  //   width: 45,
+                  //   decoration: BoxDecoration(
+                  //       // color: darkGray,
+                  //       borderRadius: BorderRadius.circular(100)),
+                  //   child: ClipRRect(
+                  //     borderRadius: BorderRadius.circular(100),
+                  //       child: Image.network(signedInUser.photoURL),
+                  //   ),
+                  // )
                 ],
               ),
               VerticalSpacing(20),

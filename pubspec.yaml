@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.16.1
   collection: ^1.15.0
   scrollable_positioned_list: ^0.2.2
+  awesome_notifications:
 
 dev_dependencies:
   flutter_test:

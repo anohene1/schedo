@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,16 +28,23 @@ class TaskType extends ChangeNotifier {
 }
 
 TextEditingController taskTitleController = TextEditingController();
+TextEditingController taskDescriptionController = TextEditingController();
 
 String title;
+String description;
 DateTime selectedDate;
 TimeOfDay startTime;
 TimeOfDay endTime;
 bool getAlert = true;
 String taskType;
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
 
+  @override
+  _AddTaskScreenState createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -132,7 +140,9 @@ class AddTaskScreen extends StatelessWidget {
                               onTap: () {
                                 tTypes.deselectAllButtons();
                                 tTypes.setSelected(tTypes.taskTypes[index]);
-                                taskType = tTypes.taskTypes[index].title;
+                                setState(() {
+                                  taskType = tTypes.taskTypes[index].title;
+                                });
                               },
                             );
                           },
@@ -142,6 +152,43 @@ class AddTaskScreen extends StatelessWidget {
                   )
                 ],
             ),
+            VerticalSpacing(30),
+            taskType == 'Planned' ? TextField(
+              minLines: 1,
+              maxLines: 5,
+              style: TextStyle(
+                  fontSize: 20
+              ),
+              controller: taskDescriptionController,
+              onEditingComplete: () {
+                FocusScope.of(context).unfocus();
+              },
+              onChanged: (value) {
+                description = value;
+              },
+              decoration: InputDecoration(
+                hintText: 'Task Description',
+                filled: true,
+                fillColor: Theme.of(context).buttonColor,
+                contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Color(0xFF4B4B4B)
+                          : Color(0xFFE5E6E8),
+                      width: 2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Color(0xFF4B4B4B)
+                          : Color(0xFFE5E6E8),
+                      width: 2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ) : SizedBox.shrink(),
             VerticalSpacing(30),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +360,9 @@ class AddTaskScreen extends StatelessWidget {
                   activeColor: Theme.of(context).primaryColor,
                   value: getAlert,
                   onChanged: (value) {
-                    getAlert = value;
+                    setState(() {
+                      getAlert = value;
+                    });
                   },
                 )
               ],
@@ -332,6 +381,7 @@ class AddTaskScreen extends StatelessWidget {
                   Provider.of<FirestoreService>(context, listen: false).addTask(
                       Task(
                         title: title,
+                        description: description,
                         type: taskType,
                         date: selectedDate,
                         startTime: DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute),
@@ -342,6 +392,15 @@ class AddTaskScreen extends StatelessWidget {
                   }).catchError((e){
                     print(e);
                   });
+
+                  AwesomeNotifications().createNotification(
+                      content: NotificationContent(
+                          id: 1,
+                          channelKey: 'basic_channel',
+                          title: 'Task Added!',
+                          body: 'You will be notified later.'
+                      )
+                  );
 
                   // Resets the add task form
                   Navigator.pop(context);

@@ -21,6 +21,7 @@ class FirestoreService with ChangeNotifier {
   Future<void> addTask(Task task) {
       return users.add({
         'title': task.title,
+        'description': task.description,
         'type': task.type,
         'start_time': task.startTime,
         'end_time': task.endTime,
@@ -35,6 +36,10 @@ class FirestoreService with ChangeNotifier {
       }).catchError((e){
         print(e);
       });
+  }
+
+  Future<void> updateTask(bool isCompleted, String id) {
+    return users.doc(id).update({'is_completed': isCompleted});
   }
 
 }

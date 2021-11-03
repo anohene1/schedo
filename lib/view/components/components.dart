@@ -5,3 +5,5 @@ export "category_button.dart";
 export 'task_widget.dart';
 export 'error_dialog.dart';
 export 'calendar_timeline.dart';
+export 'checkable_task_widget.dart';
+export 'list_heading.dart';
