@@ -393,19 +393,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     print(e);
                   });
 
-                  AwesomeNotifications().createNotification(
-                      content: NotificationContent(
-                          id: 1,
-                          channelKey: 'basic_channel',
-                          title: 'Task Added!',
-                          body: 'You will be notified later.'
-                      )
-                  );
-
                   // Resets the add task form
                   Navigator.pop(context);
                   Provider.of<TaskType>(context, listen: false).deselectAllButtons();
                   taskTitleController.clear();
+                  taskDescriptionController.clear();
                   taskType = null;
                   selectedDate = null;
                   startTime = null;

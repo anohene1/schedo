@@ -7,21 +7,26 @@ void showError({@required BuildContext context, @required String title, @require
       barrierDismissible: false,
       builder: (_) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          title: Text(title,
-            textAlign: TextAlign.center,
-          ),
-          titleTextStyle: TextStyle(
-            fontSize: 25,
-            fontFamily: 'Gilroy',
-            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
-          ),
+          backgroundColor: Colors.transparent,
           contentPadding: EdgeInsets.zero,
           content: Container(
-            height: 120,
+            decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(30)
+            ),
+            padding: EdgeInsets.only(top: 30),
+            height: 170,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Text(title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontFamily: 'Gilroy',
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: Text(error, textAlign: TextAlign.center,),

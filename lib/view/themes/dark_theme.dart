@@ -8,7 +8,9 @@ ThemeData darkTheme() {
       accentColor: pink,
       scaffoldBackgroundColor: darkBackground,
       fontFamily: "Gilroy",
-      buttonColor: darkBlue,
+      buttonColor: lightpurple.withOpacity(0.01),
+      cardColor: purple.withOpacity(0.1),
+      canvasColor: purple.withOpacity(0.3),
       primaryColorLight: Colors.white,
     dividerColor: darkThemeGrey
   );

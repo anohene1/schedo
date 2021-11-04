@@ -3,9 +3,9 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:crypto/crypto.dart';
+// import 'package:twitter_login/twitter_login.dart';
 // import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthService {
@@ -13,7 +13,7 @@ class AuthService {
 
   GoogleSignIn googleSignIn = GoogleSignIn();
   FacebookAuth facebookSignIn = FacebookAuth.instance;
-  TwitterLogin twitterSignIn = TwitterLogin(consumerKey: 'UaOn42PIXpOLXCxAYEw5Ikx1e', consumerSecret: 'T5nhBXZIllW7b287PeshW4QE5O2Tdq2S4irQiROYA5DOeiRvAH');
+  // final twitterLogin = TwitterLogin(apiKey: 'zk3uvhwPUYM8KEfQ2LXeNNo5W', apiSecretKey: 'VYeGNIScitoW0mcWFxAFynIp1VYyaaUTh7tIHBC0eIbSAic4Sn', redirectURI: 'twitter-firebase-auth://');
 
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await googleSignIn.signIn();
@@ -54,9 +54,14 @@ class AuthService {
   // }
 
   Future<UserCredential> signInWithTwitter() async {
-    final TwitterLoginResult result = await twitterSignIn.authorize();
-    final TwitterSession twitterSession = result.session;
-    final AuthCredential credential = TwitterAuthProvider.credential(accessToken: twitterSession.token, secret: twitterSession.secret);
-    return await firebaseAuth.signInWithCredential(credential);
+    // final authResult = await twitterLogin.login();
+    //
+    // final twitterAuthCredential = TwitterAuthProvider.credential(
+    //   accessToken: authResult.authToken,
+    //   secret: authResult.authTokenSecret,
+    // );
+    //
+    // // Once signed in, return the UserCredential
+    // return await FirebaseAuth.instance.signInWithCredential(twitterAuthCredential);
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:device_info/device_info.dart';
+// import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,33 +19,42 @@ import 'package:intl/date_symbol_data_local.dart';
 User signedInUser = FirebaseAuth.instance.currentUser;
 
 //Get Device Info
-DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+// DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
-double iOSVersion;
-
+double iOSVersion = 15;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AwesomeNotifications().initialize(null, [
-    NotificationChannel(channelKey: 'basic_channel', channelName: 'Schedo Notifications', channelDescription: 'Notifications of tasks', defaultColor: Color(0xFF5C49A4))
+  AwesomeNotifications().initialize('resource://drawable/notification_icon', [
+  // AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Schedo Notifications',
+        channelDescription: 'Notifications of tasks',
+        defaultColor: Color(0xFF5C49A4),
+      importance: NotificationImportance.High
+      // channelShowBadge: true
+    )
   ]);
   await Firebase.initializeApp();
-  if (Platform.isIOS) {
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    iOSVersion = double.tryParse(iosInfo.systemVersion);
-  }
-  runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider<HomeIndexedStackIndex>(create: (context) => HomeIndexedStackIndex()),
-      ChangeNotifierProvider<NavigationIndexedStackIndex>(create: (context) => NavigationIndexedStackIndex()),
+  // if (Platform.isIOS) {
+  //   IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+  //   iOSVersion = double.tryParse(iosInfo.systemVersion);
+  // }
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<HomeIndexedStackIndex>(
+          create: (context) => HomeIndexedStackIndex()),
+      ChangeNotifierProvider<NavigationIndexedStackIndex>(
+          create: (context) => NavigationIndexedStackIndex()),
       ChangeNotifierProvider<Categories>(create: (context) => Categories()),
       ChangeNotifierProvider<TaskType>(create: (context) => TaskType()),
       Provider<AuthService>(create: (context) => AuthService()),
-      ChangeNotifierProvider<FirestoreService>(create: (context) => FirestoreService()),
+      ChangeNotifierProvider<FirestoreService>(
+          create: (context) => FirestoreService()),
     ],
-      child: MyApp(),
-    )
-  );
+    child: MyApp(),
+  ));
 }
 
 MyTheme currentTheme = MyTheme();
@@ -56,7 +65,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -68,11 +76,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    AwesomeNotifications().actionStream.listen(
-            (receivedNotification){
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
-        }
-    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       builder: (context, widget) => ResponsiveWrapper.builder(
@@ -92,7 +95,11 @@ class _MyAppState extends State<MyApp> {
       theme: lightTheme(),
       darkTheme: darkTheme(),
       // home: OnboardingScreen(),
-      home: signedInUser == null ? OnboardingScreen(iOSVersion: iOSVersion,) : Navigation(),
+      home: signedInUser == null
+          ? OnboardingScreen(
+              iOSVersion: iOSVersion,
+            )
+          : Navigation(),
     );
   }
 }

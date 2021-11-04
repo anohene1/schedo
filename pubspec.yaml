@@ -37,10 +37,9 @@ dependencies:
   google_sign_in: ^4.5.1
   flutter_facebook_auth: ^2.0.1
 #  sign_in_with_apple: ^2.5.4
-  flutter_twitter_login:
-    git: git://github.com/eudangeld/flutter_twitter_login.git
+#  twitter_login:
   crypto: ^2.1.5
-  device_info: ^1.0.0
+#  device_info: ^1.0.0
   day_night_time_picker: ^0.5.0
   intl: ^0.16.1
   collection: ^1.15.0
@@ -84,7 +83,7 @@ flutter:
         - asset: assets/fonts/Gilroy.ttf
         - asset: assets/fonts/Gilroy-Light.otf
           weight: 100
-        - asset: assets/fonts/Gilroy-ExtraBold.otf
+        - asset: assets/fonts/Gilroy-Medium.ttf
           weight: 900
   #   - family: Trajan Pro
   #     fonts:

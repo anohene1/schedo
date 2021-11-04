@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'components.dart';
 
@@ -9,6 +10,7 @@ class TaskWidget extends StatelessWidget {
   final DateTime startTime;
   final DateTime endTime;
   bool isCompleted;
+  bool withDate;
 
   TaskWidget({
     this.title,
@@ -17,18 +19,19 @@ class TaskWidget extends StatelessWidget {
     this.startTime,
     this.endTime,
     this.isCompleted = false,
+    this.withDate = true,
   });
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10),
+      padding: EdgeInsets.only(left: withDate ? 10 : 20, right: 20),
       margin: EdgeInsets.only(bottom: 20),
       decoration:
       BoxDecoration(color: Theme.of(context).buttonColor, borderRadius: BorderRadius.circular(20),
         border: Border.all(
-            color: Theme.of(context).buttonColor,
+            color: Theme.of(context).canvasColor,
             style: BorderStyle.solid,
             width: 2
         ),
@@ -37,11 +40,11 @@ class TaskWidget extends StatelessWidget {
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          Container(
+          withDate ? Container(
             height: 80,
             width: 60,
             decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(15)
             ),
             child: Center(
@@ -54,8 +57,8 @@ class TaskWidget extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-          SizedBox(width: 30,),
+          ) : SizedBox.shrink(),
+          withDate ? SizedBox(width: 30,) : SizedBox.shrink(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,9 +66,9 @@ class TaskWidget extends StatelessWidget {
               Text(
                 '$title',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    // fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Theme.of(context).primaryColorLight,
+                    // color: Theme.of(context).primaryColorLight,
                     decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none
                 ),
               ),

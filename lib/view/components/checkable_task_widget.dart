@@ -39,7 +39,7 @@ class _CheckableTaskWidgetState extends State<CheckableTaskWidget> {
         color: Theme.of(context).buttonColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-            color: Theme.of(context).buttonColor,
+            color: Theme.of(context).canvasColor,
             style: BorderStyle.solid,
             width: 2),
       ),
@@ -58,9 +58,9 @@ class _CheckableTaskWidgetState extends State<CheckableTaskWidget> {
                   Text(
                     '${widget.title}',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Theme.of(context).primaryColorLight,
+                        // color: Theme.of(context).primaryColorLight,
                         decoration: widget.isCompleted
                             ? TextDecoration.lineThrough
                             : TextDecoration.none),

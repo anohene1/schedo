@@ -9,6 +9,8 @@ ThemeData lightTheme() {
     scaffoldBackgroundColor: Colors.white,
     fontFamily: "Gilroy",
     buttonColor: lightGrey,
+    cardColor: lightpurple,
+    canvasColor: mediumGrey,
     primaryColorLight: lightThemeText,
     dividerColor: grey
   );

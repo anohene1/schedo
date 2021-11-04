@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,115 @@ class HomeIndexedStackIndex extends ChangeNotifier {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+
+class HomeScreen extends StatefulWidget {
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    AwesomeNotifications().isNotificationAllowed().then(
+          (isAllowed) {
+        if (!isAllowed) {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              backgroundColor: Colors.transparent,
+              contentPadding: EdgeInsets.zero,
+              content: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(30)
+                ),
+                padding: EdgeInsets.only(top: 30),
+                height: 200,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Notification Permission',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontFamily: 'Gilroy',
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                      child: Text('Schedo would like to send you notifications to remind you of your tasks.', textAlign: TextAlign.center,),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: pink,
+                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30))
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Don't send",
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        HorizontalSpacing(2),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              AwesomeNotifications()
+                                  .requestPermissionToSendNotifications()
+                                  .then((_) => Navigator.pop(context));
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: pink,
+                                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(30))
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Send',
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    AwesomeNotifications().actionStream.listen((receivedNotification) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Container(
